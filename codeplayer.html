@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+	<head>
+            <title>jQuery</title>
+        
+            <meta charset="UTF-8">
+        
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+            <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+        
+            <link href="js/jquery-ui/jquery-ui.css" rel="stylesheet">
+        
+            <script src="js/jquery-ui/jquery-ui.js"></script>
+		
+            <style>
+                body{
+                    margin: 0;
+                    padding: 0;
+                    font-family: sans-serif;
+                }
+                #title{
+                    float: left;
+                    font-weight: bold;
+                    padding: 15px 5px;
+                }
+                #navbar
+                {
+                    height:50px;
+                    background-color: #EEEEEE;
+                    overflow: hidden;
+                }
+                .line{
+                    border-left: 1px solid black;
+                }
+                #main{
+                    overflow: hidden;
+                }
+                #menu{
+                    width: 400px;
+                    height: 35px;
+                    margin: 5px auto;
+                    border: 1px solid black;
+                    overflow: hidden;
+                    border-radius: 10px;
+                }
+                .button{
+                    float: left;
+                    height: 35px;
+                    width: 99px;
+                    text-align: center;
+                    line-height: 35px;
+                    cursor: pointer;
+                }
+                
+                .hidden{
+                    display: none;
+                }
+                textarea{
+                    font-family: sans-serif;
+                    resize: none;
+                    border-top: none;
+                }
+                iframe{
+                    border: none;
+                }
+                .panel{
+                    float: left;
+                    border-left: none;
+                    border-bottom: none;
+                    border-top: none;
+                }
+                .active{
+                    background-color: #E8F2FF;
+                }
+            </style>
+        
+            <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+            <script>
+                $(document).ready(function(){
+                    $(".button").click(function(){
+                        $(this).toggleClass("active");
+                        var panelId = $(this).attr("id") + "Panel";
+                        $("#" + panelId).toggleClass("hidden");
+                        var numItems = 4 - $('.hidden').length;
+                        $(".panel").width(($(window).width() / numItems) - 5);
+                    });
+                    
+                    $(".panel").height($(window).height() - $("#navbar").height() - 4);
+                    $(".panel").width(($(window).width() / 2) - 5);
+                    
+                    $("iframe").contents().find("html").html("<html><head><style type='text/css'>" + $("#cssPanel").val() + "</style></head><body>" + $("#htmlPanel").val() + "</body></html>");
+                    document.getElementById("outputPanel").contentWindow.eval($("#javascriptPanel").val());
+                    $("textarea").on('change keyup paste', function() {$("iframe").contents().find("html").html("<html><head><style type='text/css'>" + $("#cssPanel").val() + "</style></head><body>" + $("#htmlPanel").val() + "</body></html>");
+                    document.getElementById("outputPanel").contentWindow.eval($("#javascriptPanel").val());
+                    });
+                });
+            </script>
+
+	</head>
+    
+	<body>
+            <div id="navbar"><div id="title">CodePlayer</div>
+                <div id="menu">
+                    <div id="html" class="button active">HTML</div>
+                    <div id="css" class="button line">CSS</div>
+                    <div id="javascript" class="button line">JavaScript</div>
+                    <div id="output" class="button line active">Output</div>
+                </div>
+            </div>
+            <div id="main">
+                <textarea id="htmlPanel" class="panel" name="hyper" placeholder="Enter HTML"><p>Hello world!</p></textarea>
+                    <textarea id="cssPanel" class="panel hidden" name="cascade" placeholder="Enter CSS">p {color: green;}</textarea>
+                    <textarea id="javascriptPanel" class="panel hidden" name="javasc" placeholder="Enter JavaScript"></textarea>
+                    <iframe id="outputPanel" class="panel" name="output"></iframe>
+            </div>
+        
+	</body>
+    
+</html>
